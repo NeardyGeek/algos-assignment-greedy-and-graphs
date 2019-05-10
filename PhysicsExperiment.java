@@ -1,7 +1,7 @@
 /**
  * Physics Experiment
- * Author: Your Name and Carolyn Yao
- * Does this compile or finish running within 5 seconds? Y/N
+ * Author: Gen Li and Carolyn Yao
+ * Does this compile or finish running within 5 seconds? Y
  */
 
 /**
@@ -15,6 +15,7 @@
  * You don't need to use the helper methods, but if they come in handy setting
  * up a custom test case, feel free to use them.
  */
+
 public class PhysicsExperiment {
 
   /**
@@ -38,6 +39,35 @@ public class PhysicsExperiment {
     int[][] scheduleTable = new int[numStudents + 1][numSteps + 1];
 
     // Your code goes here
+      
+        int row=1; // base case if only have step whoever did it's ok
+        while(row<=numStudents){
+          if(signUpTable[row][1]==1){
+            scheduleTable[row][1]=1;
+            break;
+          }
+          row++;
+        }
+    
+
+      int j=2;  
+        while(j<=numSteps){
+          int i=1;
+          while(i<=numStudents){
+            if(signUpTable[i][j]==1&& scheduleTable[i][j-1]==1){ // if it's continuously interval we will put into result
+              scheduleTable[i][j]=1;
+              j++;
+              break;
+            }else if(signUpTable[i][j]==1&& signUpTable[i][j+1]==1){ // if next step is availble we will put into result
+              scheduleTable[i][j]=1;
+              j++;
+              break;
+            }else{                                                    // otherwise we go to next student 
+                i++;
+            }
+          }
+
+        }
 
     return scheduleTable;
   }
@@ -161,5 +191,14 @@ public class PhysicsExperiment {
     // Experiment 3: Another test case, 5 students, 11 steps
     int[][] signUpsExperiment3 = {{7, 10, 11}, {8, 9, 10}, {2, 3, 4, 5, 7}, {1, 5, 6, 7, 8}, {1, 3, 4, 8}};
     pe.makeExperimentAndSchedule(3, 5, 11, signUpsExperiment3);
+
+    // Experiment 4: Another test case, 6 students, 12 steps
+    int[][] signUpsExperiment4 = {{2,3,4}, {3,4,5}, {4, 5, 6}, {5,6,7}, {7,8,9,10}, {1,3,5,7,11,12}};
+    pe.makeExperimentAndSchedule(4, 6, 12, signUpsExperiment4);
+
+    // Experiment 5: Another test case, 6 students, 12 steps
+    int[][] signUpsExperiment5 = {{2,3,4}, {3,4,5}, {1, 4, 5, 6}, {7,8}, {9,10}, {11,12}};
+    pe.makeExperimentAndSchedule(4, 6, 12, signUpsExperiment5);
+
   }
 }

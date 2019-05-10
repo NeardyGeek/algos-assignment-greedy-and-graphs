@@ -1,7 +1,7 @@
 /**
  * Public Transit
- * Author: Your Name and Carolyn Yao
- * Does this compile? Y/N
+ * Author: Gen Li and Carolyn Yao
+ * Does this compile? Y
  */
 
 /**
@@ -34,7 +34,72 @@ public class FastestRoutePublicTransit {
   ) {
     // Your code along with comments here. Feel free to borrow code from any
     // of the existing method. You can also make new helper methods.
-    return 0;
+
+    // i have some print line for you check my logic if you have trouble to understand it, 
+    // if you like my code just ignore it :)
+
+    int numVertices = lengths[0].length;
+
+    
+    int[] times = new int[numVertices];
+
+    
+    Boolean[] processed = new Boolean[numVertices];
+
+    
+
+    for (int v = 0; v < numVertices; v++) {
+      times[v] = Integer.MAX_VALUE;
+      processed[v] = false;
+    }
+
+    times[S] = 0;
+
+    int trainPass=0;
+    int totalTime=0;
+    for (int count = 0; count < numVertices - 1 ; count++) {
+      
+      startTime=startTime+totalTime; // everytime viste a new node update the start time
+
+      int u = findNextToProcess(times, processed);
+      processed[u] = true;
+
+      for (int v = 0; v < numVertices; v++) {
+        
+        if(!processed[v] && first[u][v]!=0 ){  //if stop can be visted 
+          trainPass=first[u][v];
+        
+          while(trainPass<startTime){      //get the actual time of train that passenger can take on
+            trainPass=trainPass+freq[u][v];
+          }
+
+          //System.out.print("arrive: "+trainPass); this is each record of node visit 
+
+           int waitTime= trainPass-startTime;   // get the totalweight
+           totalTime=lengths[u][v]+waitTime;
+
+           //System.out.print("total: "+u+" "+v+" "+totalTime+"\n"); // totalweight for the current edge
+          
+        }
+
+        if (!processed[v] && lengths[u][v]!=0 && times[u] != Integer.MAX_VALUE && times[u]+totalTime < times[v]) {
+
+          times[v] = times[u] + totalTime;   
+ 
+        }
+
+        //System.out.print("result: "+times[u]+"\n");  // each subsolution 
+        
+       // System.out.print("start: "+u+" "+v+" "+startTime+"\n");  // new startime
+
+      }
+    }
+
+   
+    //printShortestTimes(times); // from start stop to any other terminal
+
+
+    return times[T];
   }
 
   /**
@@ -109,7 +174,7 @@ public class FastestRoutePublicTransit {
   }
 
   public static void main (String[] args) {
-    /* length(e) */
+    /* length(e)*/
     int lengthTimeGraph[][] = new int[][]{
       {0, 4, 0, 0, 0, 0, 0, 8, 0},
       {4, 0, 8, 0, 0, 0, 0, 11, 0},
@@ -121,9 +186,48 @@ public class FastestRoutePublicTransit {
       {8, 11, 0, 0, 0, 0, 1, 0, 7},
       {0, 0, 2, 0, 0, 0, 6, 7, 0}
     };
+
     FastestRoutePublicTransit t = new FastestRoutePublicTransit();
-    t.shortestTime(lengthTimeGraph, 0);
+    t.shortestTime(lengthTimeGraph, 1);
+  
+  
 
     // You can create a test case for your implemented method for extra credit below
+    int firstGraph[][] = new int[][]{
+      {0, 15, 0, 0, 0, 0, 0, 28, 0},
+      {15, 0, 18, 0, 0, 0, 0, 25, 0},
+      {0, 18, 0, 17, 0, 24, 0, 0, 12},
+      {0, 0, 17, 0, 19, 23, 0, 0, 0},
+      {0, 0, 0, 19, 0, 20, 0, 0, 0},
+      {0, 0, 24, 23, 20, 0, 22, 0, 0},
+      {0, 0, 0, 0, 0, 22, 0, 21, 16},
+      {28, 25, 0, 0, 0, 0, 21, 0, 27},
+      {0, 0, 12, 0, 0, 0, 16, 27, 0}
+    };
+
+    int freqGraph[][] = new int[][]{
+      {0, 4, 0, 0, 0, 0, 0, 8, 0},
+      {4, 0, 8, 0, 0, 0, 0, 11, 0},
+      {0, 8, 0, 7, 0, 4, 0, 0, 2},
+      {0, 0, 7, 0, 9, 14, 0, 0, 0},
+      {0, 0, 0, 9, 0, 10, 0, 0, 0},
+      {0, 0, 4, 14, 10, 0, 2, 0, 0},
+      {0, 0, 0, 0, 0, 2, 0, 1, 6},
+      {8, 11, 0, 0, 0, 0, 1, 0, 7},
+      {0, 0, 2, 0, 0, 0, 6, 7, 0}
+    };
+
+    FastestRoutePublicTransit myTest = new FastestRoutePublicTransit();
+    int reult = myTest.myShortestTravelTime(1, 5, 90, lengthTimeGraph, firstGraph, freqGraph);
+    System.out.print("the shortest time: "+reult+" minutes");
+    
+
   }
 }
+
+
+
+
+
+
+
