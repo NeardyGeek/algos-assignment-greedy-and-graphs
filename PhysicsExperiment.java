@@ -185,7 +185,7 @@ public class PhysicsExperiment {
     pe.makeExperimentAndSchedule(1, 3, 6, signUpsExperiment1);
 
     // Experiment 2: Example 2 from README, 4 students, 8 steps
-    int[][] signUpsExperiment2 = {{5, 7, 8}, {2, 3, 4, 5, 6}, {1, 5, 7, 8}, {1, 3, 4, 8}};
+    int[][] signUpsExperiment2 = {{2, 5, 7, 8}, {2, 3, 4, 5, 6}, {1, 5, 7, 8}, {1, 3, 4, 8}};
     pe.makeExperimentAndSchedule(2, 4, 8, signUpsExperiment2);
 
     // Experiment 3: Another test case, 5 students, 11 steps
